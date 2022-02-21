@@ -13,6 +13,7 @@ Service for stopping Windows service(s) :)
 2. Change directory/navigate to **service_stop_windows_update.exe** and execute the following command: 
 ```service_stop_windows_update.exe --startup delayed install```
 
+The logs from this service locate in %ALLUSERSPROFILE%/stop_windows_updates.log
 
 ## Example
 ### With Administrator privilges

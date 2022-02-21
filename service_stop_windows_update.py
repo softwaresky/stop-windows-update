@@ -1,25 +1,38 @@
 import win32serviceutil
 import win32service
 import win32event
-import win32con
 import servicemanager
 import socket
 import time
 import sys
 import os
-import tempfile
 import logging
-
+from logging.handlers import TimedRotatingFileHandler
 from stop_windows_update import stop_windows_services_update
 
-logging.basicConfig(
-    filename="c:\\Temp\\stop_windows_updates.log",
-    level=logging.INFO,
-    format='%(asctime)s [%(name)s] %(levelname)s | %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S',
-)
+P_DATA_DIR = os.environ.get("ALLUSERSPROFILE")
+
+# logging.basicConfig(
+#     filename=os.path.join(P_DATA_DIR, "stop_windows_updates.log"),
+#     level=logging.INFO,
+#     format='%(asctime)s [%(name)s] %(levelname)s | %(message)s',
+#     datefmt='%Y-%m-%d %H:%M:%S',
+# )
+
+## Here we define our formatter
+formatter = logging.Formatter(fmt='%(asctime)s [%(name)s] %(levelname)s | %(message)s',
+                              datefmt='%Y-%m-%d %H:%M:%S')
+
+logHandler = TimedRotatingFileHandler(os.path.join(P_DATA_DIR, "stop_windows_updates.log"),
+                                      when='D',
+                                      interval=15,
+                                      backupCount=8)
+logHandler.setLevel(logging.INFO)
+logHandler.setFormatter(formatter)
 
 logger = logging.getLogger("StopWindowsUpdates")
+logger.setLevel(logging.INFO)
+logger.addHandler(logHandler)
 
 class StopWindowsUpdates(win32serviceutil.ServiceFramework):
     _svc_name_ = "StopWindowsUpdates"

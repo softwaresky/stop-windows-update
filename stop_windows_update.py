@@ -56,9 +56,9 @@ class WinService:
     def __str__(self):
         return " | ".join([f"{key}={value}" for key, value in self.query().items() if isinstance(self.query(), dict)])
 
-def stop_windows_services_update(logger = None):
+def stop_windows_services_update(logger = None, lst_add_services=[]):
 
-    for service_ in ["wuauserv", "WaaSMedicSvc"]:
+    for service_ in list(set(["wuauserv", "WaaSMedicSvc", "LicenseManager"] + lst_add_services)):
         try:
             win_service = WinService(service_)
             if win_service.state()[0] == 4:

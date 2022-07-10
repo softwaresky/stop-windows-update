@@ -43,6 +43,8 @@ class StopWindowsUpdates(win32serviceutil.ServiceFramework):
         self.stop_event = win32event.CreateEvent(None, 0, 0, None)
         socket.setdefaulttimeout(60)
         self.stop_requested = False
+        self.lst_args = list(args)[1:] if args else []
+
 
     def SvcStop(self):
         logger.info('Stopping service ...')
@@ -63,7 +65,7 @@ class StopWindowsUpdates(win32serviceutil.ServiceFramework):
     def main(self):
         while not self.stop_requested:
             try:
-                stop_windows_services_update(logger=logger)
+                stop_windows_services_update(logger=logger, lst_add_services=self.lst_args)
             except Exception as err:
                 logger.error(err)
 

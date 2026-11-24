@@ -2,6 +2,12 @@
 
 A lightweight Windows service written in Python (`pywin32`) that runs in the background and periodically stops Windows Update–related services (`BITS`, `wisvc`, `wuauserv`, and `UsoSvc`).
 
+## Download
+
+Download the latest compiled executable directly from GitHub Releases:
+
+- [service_stop_windows_update.exe](https://github.com/softwaresky/stop-windows-update/releases/download/v1.1.0/service_stop_windows_update.exe)
+
 ## Requirements
 
 * Windows (Administrator privileges required to install/manage services)

@@ -1,36 +1,58 @@
-# stop-windows-update
+# Stop Windows Updates Service
 
-Service for stopping Windows service(s) :)
+A lightweight Windows service written in Python (`pywin32`) that runs in the background and periodically stops Windows Update–related services (`BITS`, `wisvc`, `wuauserv`, and `UsoSvc`).
 
-## Instruction
-### Build Windows Service
-1. Execute following command:
-```pyinstaller  service_stop_windows_update.spec```
-1. Copy from **dist/service_stop_windows_update.exe** to location that your service(s) live
+## Requirements
 
-### Install Windows Service
-1. Open terminal with Run As Administrator
-2. Change directory/navigate to **service_stop_windows_update.exe** and execute the following command: 
-```service_stop_windows_update.exe --startup delayed install```
+* Windows (Administrator privileges required to install/manage services)
+* Python 3.10+
+* `pywin32`
+* `pyinstaller`
 
-The logs from this service locate in %ALLUSERSPROFILE%/stop_windows_updates.log
+## Installation
 
-## Example
-### With Administrator privilges
-### Install:
-dist\myservice.exe install
+Install Python dependencies from the project root:
 
-### Start:
-dist\myservice.exe start
+```cmd
+pip install -U -r .\requirements\stop_windows_update.txt
+```
 
-### Install with autostart:
-dist\myservice.exe --startup delayed install
+## Build
 
-### Debug:
-dist\myservice.exe debug
+Compile the service executable using `build_service.py`, which invokes PyInstaller with `service_stop_windows_update.spec`:
 
-### Stop:
-dist\myservice.exe stop
+```bash
+python build_service.py
+```
 
-### Uninstall:
-dist\myservice.exe remove
+The built binary will be output to the `dist/` directory (`service_stop_windows_update.exe`).
+
+## Usage (Run as Administrator)
+
+### Debug in Console
+
+```cmd
+service_stop_windows_update.exe debug
+```
+
+### Install & Start Service
+
+```cmd
+service_stop_windows_update.exe --startup auto install
+service_stop_windows_update.exe start
+```
+
+### Stop & Remove Service
+
+```cmd
+service_stop_windows_update.exe stop
+service_stop_windows_update.exe remove
+```
+
+## Logs
+
+Service logs are written with 15-day rotation to:
+
+```text
+C:\ProgramData\stop_windows_updates.log
+```
